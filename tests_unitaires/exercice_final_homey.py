@@ -1,59 +1,59 @@
-# Exercice Final: Système de Gestion de Location Saisonnière Homey
+# Exercice Final: SystÃ¨me de Gestion de Location SaisonniÃ¨re Homey
 # ================================================================
 #
-# Dans cet exercice, vous allez travailler avec un système simplifié de gestion 
-# de propriétés de location saisonnière pour la plateforme Homey.
+# Dans cet exercice, vous allez travailler avec un systÃ¨me simplifiÃ© de gestion 
+# de propriÃ©tÃ©s de location saisonniÃ¨re pour la plateforme Homey.
 #
 # Objectifs:
-# 1. Étudiez l'implémentation de la classe HomeyManager
-# 2. Complétez les tests unitaires dans la classe TestHomeyManager
+# 1. Ã‰tudiez l'implÃ©mentation de la classe HomeyManager
+# 2. ComplÃ©tez les tests unitaires dans la classe TestHomeyManager
 # 3. Utilisez tous les types d'assertions que vous avez appris
 
 class Propriete:
-    """Représente une propriété de location saisonnière sur Homey."""
+    """ReprÃ©sente une propriÃ©tÃ© de location saisonniÃ¨re sur Homey."""
     
     def __init__(self, propriete_id, nom, prix_par_nuit):
-        """Initialise une propriété avec ID, nom et prix."""
+        """Initialise une propriÃ©tÃ© avec ID, nom et prix."""
         self.propriete_id = propriete_id
         self.nom = nom
         self.prix_par_nuit = prix_par_nuit
         self.est_disponible = True
     
     def __str__(self):
-        """Retourne une représentation textuelle de la propriété."""
-        statut = "Disponible" if self.est_disponible else "Réservée"
-        return f"Propriété {self.propriete_id}: '{self.nom}' - {self.prix_par_nuit}€/nuit - {statut}"
+        """Retourne une reprÃ©sentation textuelle de la propriÃ©tÃ©."""
+        statut = "Disponible" if self.est_disponible else "RÃ©servÃ©e"
+        return f"PropriÃ©tÃ© {self.propriete_id}: '{self.nom}' - {self.prix_par_nuit}â‚¬/nuit - {statut}"
 
 
 class HomeyManager:
-    """Gère une collection de propriétés de location saisonnière sur Homey."""
+    """GÃ¨re une collection de propriÃ©tÃ©s de location saisonniÃ¨re sur Homey."""
     
     def __init__(self):
-        """Initialise une collection de propriétés vide."""
+        """Initialise une collection de propriÃ©tÃ©s vide."""
         self.proprietes = []
     
     def ajouter_propriete(self, propriete_id, nom, prix_par_nuit):
         """
-        Ajoute une nouvelle propriété à la collection.
-        Lève ValueError si propriete_id existe déjà ou si le prix est négatif.
+        Ajoute une nouvelle propriÃ©tÃ© Ã  la collection.
+        LÃ¨ve ValueError si propriete_id existe dÃ©jÃ  ou si le prix est nÃ©gatif.
         """
         if prix_par_nuit <= 0:
-            raise ValueError("Le prix par nuit doit être positif")
+            raise ValueError("Le prix par nuit doit Ãªtre positif")
         
-        # Vérifie si propriete_id existe déjà
+        # VÃ©rifie si propriete_id existe dÃ©jÃ 
         for propriete in self.proprietes:
             if propriete.propriete_id == propriete_id:
-                raise ValueError(f"Une propriété avec l'ID {propriete_id} existe déjà")
+                raise ValueError(f"Une propriÃ©tÃ© avec l'ID {propriete_id} existe dÃ©jÃ ")
         
-        # Crée et ajoute la nouvelle propriété
+        # CrÃ©e et ajoute la nouvelle propriÃ©tÃ©
         nouvelle_propriete = Propriete(propriete_id, nom, prix_par_nuit)
         self.proprietes.append(nouvelle_propriete)
         return nouvelle_propriete
     
     def supprimer_propriete(self, propriete_id):
         """
-        Supprime une propriété de la collection.
-        Retourne True si réussi, False si la propriété n'a pas été trouvée.
+        Supprime une propriÃ©tÃ© de la collection.
+        Retourne True si rÃ©ussi, False si la propriÃ©tÃ© n'a pas Ã©tÃ© trouvÃ©e.
         """
         for i, propriete in enumerate(self.proprietes):
             if propriete.propriete_id == propriete_id:
@@ -63,8 +63,8 @@ class HomeyManager:
     
     def obtenir_propriete(self, propriete_id):
         """
-        Obtient une propriété par son ID.
-        Retourne la propriété si trouvée, None sinon.
+        Obtient une propriÃ©tÃ© par son ID.
+        Retourne la propriÃ©tÃ© si trouvÃ©e, None sinon.
         """
         for propriete in self.proprietes:
             if propriete.propriete_id == propriete_id:
@@ -73,8 +73,8 @@ class HomeyManager:
     
     def rechercher_par_nom(self, nom_recherche):
         """
-        Recherche des propriétés contenant le nom donné (insensible à la casse).
-        Retourne une liste des propriétés correspondantes.
+        Recherche des propriÃ©tÃ©s contenant le nom donnÃ© (insensible Ã  la casse).
+        Retourne une liste des propriÃ©tÃ©s correspondantes.
         """
         resultats = []
         for propriete in self.proprietes:
@@ -84,8 +84,8 @@ class HomeyManager:
     
     def reserver_propriete(self, propriete_id):
         """
-        Réserve une propriété (la marque comme indisponible).
-        Retourne True si réussi, False si la propriété n'existe pas ou est déjà réservée.
+        RÃ©serve une propriÃ©tÃ© (la marque comme indisponible).
+        Retourne True si rÃ©ussi, False si la propriÃ©tÃ© n'existe pas ou est dÃ©jÃ  rÃ©servÃ©e.
         """
         propriete = self.obtenir_propriete(propriete_id)
         if propriete is None or not propriete.est_disponible:
@@ -96,8 +96,8 @@ class HomeyManager:
     
     def liberer_propriete(self, propriete_id):
         """
-        Libère une propriété réservée (la marque comme disponible).
-        Retourne True si réussi, False si la propriété n'existe pas ou est déjà libre.
+        LibÃ¨re une propriÃ©tÃ© rÃ©servÃ©e (la marque comme disponible).
+        Retourne True si rÃ©ussi, False si la propriÃ©tÃ© n'existe pas ou est dÃ©jÃ  libre.
         """
         propriete = self.obtenir_propriete(propriete_id)
         if propriete is None or propriete.est_disponible:
@@ -107,9 +107,9 @@ class HomeyManager:
         return True
     
     def obtenir_proprietes_disponibles(self):
-        """Retourne une liste de toutes les propriétés disponibles."""
+        """Retourne une liste de toutes les propriÃ©tÃ©s disponibles."""
         return [propriete for propriete in self.proprietes if propriete.est_disponible]
     
     def obtenir_proprietes_reservees(self):
-        """Retourne une liste de toutes les propriétés réservées."""
+        """Retourne une liste de toutes les propriÃ©tÃ©s rÃ©servÃ©es."""
         return [propriete for propriete in self.proprietes if not propriete.est_disponible] 
